@@ -25,9 +25,9 @@ jobs:
      - name: "Sync files to GCP account"
        run: |
          #!/bin/bash
+         gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
          gsutil rsync -r ./ gs://suriya-bucket
        shell: bash
 
 
 
-## gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
