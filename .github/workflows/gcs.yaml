@@ -1,0 +1,30 @@
+name: git-to-gcs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  git-to-gcs-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+
+     - name: "Checkout to Branch"
+       uses: actions/checkout@v4
+
+     - name: "Setup GCP SDK"
+       uses: google-github-actions/setup-gcloud@v2
+
+     - name: "Configure GCP Service Account"
+       uses: google-github-actions/auth@v2
+       with:
+         credentials_json: ${{ secrets.SA }}
+         project_id: prefab-icon-441814-j7
+
+     - name: "Sync files to GCP account"
+       run: |
+         #!/bin/bash
+     #    gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+         gsutil rsync -r ./ gs://suriya-bucket
+       shell: bash
